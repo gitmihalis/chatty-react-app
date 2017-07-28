@@ -50,7 +50,7 @@ class App extends Component {
         // handle a new client has connected to the server
         this.setState({ clients: data.clients })
         break
-      case "disconnectNotification":
+      case "disconnectionNotification":
         console.log('incoming message data type : ', data.type)
         // handle client closed socket
         this.setState({ clients: data.clients})
@@ -81,7 +81,6 @@ class App extends Component {
   render() {
     const currentUser = this.state.currentUser.name
     const connectedClientCount = this.state.clients.length
-    console.log("Rendering <App/>");
     return (
     	<div>
     		<Navbar connectedClients={connectedClientCount}/>

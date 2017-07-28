@@ -1,8 +1,6 @@
 import React from 'react';
 
-function Navbar(props) {
-	console.log("Rendering <Navbar/>")
-	return ( 
+function Navbar(props) {	return ( 
 		<nav className="navbar">
   		<a href="/" className="navbar-brand">Chatty</a>
   			<div className="client-count"> chatters 

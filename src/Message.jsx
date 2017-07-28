@@ -1,7 +1,6 @@
 import React from 'react';
 
 function Message(props) {
-	console.log("Rendering <Message/>");
 	let message;
 
 	if (props.type === 'incomingMessage') {
