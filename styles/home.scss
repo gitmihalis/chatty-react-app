@@ -71,6 +71,16 @@ body {
   font-weight: 700;
 }
 
+.badge {
+    background: radial-gradient( 5px -9px, circle, white 8%, red 26px );
+    background-color: #fff;
+    border-radius: 12px; /* one half of ( (border * 2) + height + padding ) */
+    font: bold 15px/13px Helvetica, Verdana, Tahoma;
+    color: tomato;
+    padding: 1px 4px 1px 4px;
+    text-align: center;
+}
+
 .navbar {
   background: tomato;
   box-shadow: 1px 0 10px #aaa;
@@ -80,6 +90,15 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+
+  .client-count {
+    float: right;
+    margin: 22px;
+    color: white;
+    span {
+      margin-left: 6px;
+    }
+  }
 }
 
 .navbar-brand {
