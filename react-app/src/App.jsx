@@ -50,12 +50,12 @@ class App extends Component {
         this.setState({ messages: [...this.state.messages, data] })
         break
       case "connectionNotification":
-        console.log('incoming message data type :', data.type)
+        console.log('incoming message type :', data.type)
         // handle a new client has connected to the server
         this.setState({ clients: data.clients })
         break
       case "disconnectionNotification":
-        console.log('incoming message data type : ', data.type)
+        console.log('incoming message type : ', data.type)
         // handle client closed socket
         this.setState({ clients: data.clients})
       default:
