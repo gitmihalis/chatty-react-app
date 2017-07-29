@@ -9,7 +9,10 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      currentUser: {name: "Anonymous", id: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { 
+        name: "Anonymous", 
+        id: '', 
+      }, 
       messages: [],
       clients: [],
     }
@@ -33,6 +36,7 @@ class App extends Component {
 
   handleIncomingMessage(event) {
     // Incoming event is JSON
+    console.log(event)
     const data = JSON.parse(event.data)
     switch(data.type) {
       case "incomingMessage":
