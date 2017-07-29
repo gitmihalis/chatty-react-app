@@ -24,15 +24,15 @@ const CLIENTS = {}
 // When a client connects they are assigned a socket, represented by
 // the `client` parameter in the callback.
 wss.on('connection', (client) => {
-
   const uniqueId = uuid()
+  const uniqueColor = randomColor()
 
-	clientConnected(CLIENTS, uniqueId)
+	clientConnected(CLIENTS, uniqueId, uniqueColor)
 
-	//  A callback for when a client closes the socket. This usually means they closed their browser.
+	// A callback for when a client closes the socket. This usually means they closed their browser.
   client.on('close', () => clientDisconnected(CLIENTS, uniqueId) )
-
-  client.on('message', (incoming) => handleIncoming(incoming))
+  // Callback to handle the incoming message stings
+  client.on('message', (message) => handleIncoming(message, uniqueColor) )
 })
 
 // Broadcast - Goes through each client and sends message data
@@ -45,9 +45,9 @@ wss.broadcast = function(data) {
 }
 // ==================================== HANDLERS ====
 // A client is added to clients on a connection event
-function clientConnected(clients, clientId) {
+function clientConnected(clients, clientId, color) {
   clients[clientId] = {
-    id: clientId
+    id: clientId,
   }
   // Convert clients object to Array before sending to React app
   let clientsArr = Object.keys(clients).map( (key) => clients[key] )
@@ -56,6 +56,7 @@ function clientConnected(clients, clientId) {
   const message = {
     type: 'connectionNotification',
     id: uuid(),
+    color: color,
     clients: clientsArr,
   }
   // Broadcast the message 
@@ -84,23 +85,22 @@ function clientDisconnected(clients, clientId) {
   console.log(`<< client disconnected`)
 }
 
-function handleIncoming(message) {
+function handleIncoming(message, color) {
   const data = JSON.parse(message)
-  
+  data.id = uuid()
+
   switch(data.type) {
   case "postMessage":
-    data.id = uuid()
     data.type = 'incomingMessage'
-    wss.broadcast(JSON.stringify(data))
+    data.color = color
     break
   case "postNotification":
-    data.id = uuid()
     data.type = 'incomingNotification'
-    wss.broadcast(JSON.stringify(data))
     break
   default:
     console.error('Unkown data type ', data.type)
   }
+  wss.broadcast(JSON.stringify(data))
 }
 
 
