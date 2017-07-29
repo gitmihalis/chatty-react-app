@@ -71,6 +71,9 @@ class App extends Component {
   }
 
   handleUsernameChange(name) {
+    if (name === this.state.currentUser.name || !name ) {
+      return
+    }
     const notification = {}
     notification.type = 'postNotification'
     notification.content = `${this.state.currentUser.name} has changed their name to ${name}`
