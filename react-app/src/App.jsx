@@ -39,34 +39,32 @@ class App extends Component {
     console.log(event)
     const data = JSON.parse(event.data)
     switch(data.type) {
-      case "incomingMessage":
+      case "incomingMessage": // Messages is a Chat messges 
         console.log('incoming message, type :', data.type)
         // handle a new text message
         this.setState({messages: [...this.state.messages, data]})
         break
-      case "incomingNotification":
+      case "incomingNotification": // Message is a username change notice
         console.log('incoming message type :', data.type)
         // handle  username change notification  
         this.setState({ messages: [...this.state.messages, data] })
         break
-      case "connectionNotification":
+      case "connectionNotification": // Message when a new user connects to the server
         console.log('incoming message type :', data.type)
         // handle a new client has connected to the server
         this.setState({ clients: data.clients })
         break
-      case "disconnectionNotification":
+      case "disconnectionNotification": // Message when a user disconnect/closes their browser
         console.log('incoming message type : ', data.type)
         // handle client closed socket
         this.setState({ clients: data.clients})
-      default:
-        // show an error in the console if the message type is unknown
+      default: // show an error in the console if the message type is unknown
         throw new Error("Unknown event type", data.type)
     }
   }
 
   postMessage(message) {
-      // Build the message object to send to the server 
-      // which needs to receive JSON
+    // Build the message object to send to the server 
     const newMessage = {}
     newMessage.type = 'postMessage'
     newMessage.username = this.state.currentUser.name
