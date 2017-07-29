@@ -68,13 +68,13 @@ function clientConnected(clients, clientId) {
   let clientsArr = Object.keys(clients).map( (key) => clients[key] )
   // Setup message to be set to the client
   // Includes all currently connected clients
-  const connectionMsg = {
+  const message = {
     type: 'connectionNotification',
     id: uuid(),
     clients: clientsArr,
   }
-  console.log('[^^ clientsArr] ', clientsArr)
-  wss.broadcast(JSON.stringify(connectionMsg))
+  // Broadcast the message 
+  wss.broadcast(JSON.stringify(message))
   console.log(`>> client connected`)
 }
 
@@ -89,13 +89,13 @@ function clientDisconnected(clients, clientId) {
   // convert CLIENTS object to array before sending to React app
   let clientsArr = Object.keys(clients).map( (key) => clients[key] )
 
-	const disconnectionMsg = {
+	const message = {
 		type: 'disconnectionNotification',
 		id: uuid(),
 		clients: clientsArr,
 	}
   console.log('[^^ clientsArr] ', clientsArr)
-  wss.broadcast(JSON.stringify(disconnectionMsg))
+  wss.broadcast(JSON.stringify(message))
   console.log(`<< client disconnected`)
 }
 
