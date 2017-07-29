@@ -6,11 +6,7 @@ function Chatbar(props) {
 		<footer className="chatbar">
 		  <input className="chatbar-username" 
 		  			 placeholder={props.username}
-		  			 onKeyPress={ (event) => {
-		  			 	if (event.key === 'Enter') {
-								props.changeUsername(event.target.value)		  			 		
-		  			 	}
-		  			 }} 
+		  			 onBlur={ (event) => props.changeUsername(event.target.value)}
 		  			 />
 		  <input className="chatbar-message" 
 		  			 placeholder="Type a message and hit ENTER"
