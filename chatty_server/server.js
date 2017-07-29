@@ -25,7 +25,7 @@ const CLIENTS = {}
 // the `client` parameter in the callback.
 wss.on('connection', (client) => {
   const uniqueId = uuid()
-  const uniqueColor = randomColor()
+  const uniqueColor = randomColor().hexString()
 
 	clientConnected(CLIENTS, uniqueId, uniqueColor)
 
