@@ -14,7 +14,7 @@ class App extends Component {
         id: '', 
       }, 
       messages: [],
-      clients: [],
+      clients: 0,
     }
     this.socket = new WebSocket("ws://localhost:3001")
     this.postMessage = this.postMessage.bind(this)
@@ -85,10 +85,9 @@ class App extends Component {
 
   render() {
     const currentUser = this.state.currentUser.name
-    const connectedClientCount = this.state.clients.length
     return (
     	<div>
-    		<Navbar connectedClients={connectedClientCount}/>
+    		<Navbar connectedClients={this.state.clients}/>
     		<MessageList messages={this.state.messages}/>
     		<Chatbar username={currentUser} 
                  postMessage={this.postMessage}

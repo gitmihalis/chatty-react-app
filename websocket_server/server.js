@@ -15,22 +15,22 @@ const server = express()
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`))
 // Create a web sockets server
 const wss = new SockectServer({ server })
-// Keep info on currently connected clients
-const CLIENTS = {}
-// Keep list of possible colors assignable to connected clients
-
+// ================================================
+// TODO:: Keep info on currently connected clients
+// const CLIENTS = {}
+// ================================================
 
 // A callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the `client` parameter in the callback.
 wss.on('connection', (client) => {
-  const uniqueId = uuid()
+  // const uniqueId = uuid()
   const uniqueColor = randomColor().hexString()
 
-	clientConnected(CLIENTS, uniqueId, uniqueColor)
+	clientConnected(uniqueColor)
 
 	// A callback for when a client closes the socket. This usually means they closed their browser.
-  client.on('close', () => clientDisconnected(CLIENTS, uniqueId) )
+  client.on('close', clientDisconnected )
   // Callback to handle the incoming message stings
   client.on('message', (message) => handleIncoming(message, uniqueColor) )
 })
@@ -44,20 +44,23 @@ wss.broadcast = function(data) {
   })
 }
 // ==================================== HANDLERS ====
-// A client is added to clients on a connection event
-function clientConnected(clients, clientId, color) {
-  clients[clientId] = {
-    id: clientId,
-  }
+// TODO:: A client is added to clients on a connection event
+function clientConnected(color) {
+  // clients[clientId] = {
+  //   id: clientId,
+  // }
+  //
   // Convert clients object to Array before sending to React app
-  let clientsArr = Object.keys(clients).map( (key) => clients[key] )
+  // let clientsArr = Object.keys(clients).map( (key) => clients[key] )
+  //
+
   // Setup message to be set to the client
   // Includes all currently connected clients
   const message = {
     type: 'connectionNotification',
     id: uuid(),
     color: color,
-    clients: clientsArr,
+    clients: wss.clients.size,
   }
   // Broadcast the message 
   wss.broadcast(JSON.stringify(message))
@@ -65,22 +68,23 @@ function clientConnected(clients, clientId, color) {
 }
 
 // Disconnection event
-function clientDisconnected(clients, clientId) {
-  const client = clients[clientId]
-  if (!client) {
-    return
-  }
-  delete clients[clientId]
+function clientDisconnected() {
+  // TODO :: implement client tracking
+  // const client = clients[clientId]
+  // if (!client) {
+  //   return
+  // }
+  // delete clients[clientId]
 
   // convert CLIENTS object to array before sending to React app
-  let clientsArr = Object.keys(clients).map( (key) => clients[key] )
+  // let clientsArr = Object.keys(clients).map( (key) => clients[key] )
 
 	const message = {
 		type: 'disconnectionNotification',
 		id: uuid(),
-		clients: clientsArr,
+		clients: wss.clients.size,
 	}
-  console.log('[^^ clientsArr] ', clientsArr)
+
   wss.broadcast(JSON.stringify(message))
   console.log(`<< client disconnected`)
 }
